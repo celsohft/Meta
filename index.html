@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaFlow PRO | Sistema de Metas</title>
+    <meta name="description" content="MetaFlow PRO - Sistema profissional de gestão de metas com autenticação, analytics e experiência premium">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ============================================================
+         TELA DE LOGIN
+         ============================================================ -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-box">
+            <div class="logo">
+                <h1>🎯 MetaFlow</h1>
+                <p>Faça login para continuar</p>
+            </div>
+
+            <!-- FORMULÁRIO DE LOGIN -->
+            <div id="formLogin">
+                <div class="campo">
+                    <label for="loginUser">👤 Usuário</label>
+                    <input type="text" id="loginUser" placeholder="Digite seu usuário" value="admin">
+                </div>
+                <div class="campo">
+                    <label for="loginPass">🔒 Senha</label>
+                    <input type="password" id="loginPass" placeholder="Digite sua senha" value="123456">
+                </div>
+                <button class="btn-login" onclick="fazerLogin()">
+                    Entrar <i class="fas fa-arrow-right"></i>
+                </button>
+                <div class="toggle-login">
+                    Não tem conta? <a onclick="mostrarCadastro()">Cadastre-se</a>
+                </div>
+            </div>
+
+            <!-- FORMULÁRIO DE CADASTRO -->
+            <div id="formCadastro" style="display:none;">
+                <div class="campo">
+                    <label for="cadastroUser">👤 Novo Usuário</label>
+                    <input type="text" id="cadastroUser" placeholder="Escolha um usuário (mínimo 3 caracteres)">
+                </div>
+                <div class="campo">
+                    <label for="cadastroPass">🔒 Nova Senha</label>
+                    <input type="password" id="cadastroPass" placeholder="Crie uma senha (mínimo 4 caracteres)">
+                </div>
+                <button class="btn-login" onclick="fazerCadastro()">
+                    Criar Conta <i class="fas fa-user-plus"></i>
+                </button>
+                <div class="toggle-login">
+                    Já tem conta? <a onclick="mostrarLogin()">Faça login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         APLICATIVO PRINCIPAL
+         ============================================================ -->
+    <div class="app-container" id="appContainer">
+
+        <!-- ===== CABEÇALHO ===== -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo-icon">🎯</div>
+                <div class="logo">
+                    <h1>MetaFlow PRO</h1>
+                    <p>Bem-vindo, <span id="nomeUsuario">Usuário</span>!</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-theme" onclick="toggleTheme()" title="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn-logout" onclick="fazerLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- ===== MENU ===== -->
+        <nav class="menu">
+            <button class="btn-nav ativo" data-pagina="home">
+                <i class="fas fa-home"></i> Início
+            </button>
+            <button class="btn-nav" data-pagina="metas">
+                <i class="fas fa-tasks"></i> Metas
+            </button>
+            <button class="btn-nav" data-pagina="dashboard">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </button>
+            <button class="btn-nav" data-pagina="sobre">
+                <i class="fas fa-info-circle"></i> Sobre
+            </button>
+        </nav>
+
+        <!-- ==========================================================
+             PÁGINA 1: HOME (INÍCIO)
+             ========================================================== -->
+        <section id="pagina-home" class="pagina ativa">
+            <div class="hero">
+                <h2>🚀 Transforme metas<br>em conquistas reais</h2>
+                <p>Gerencie suas metas diárias, acompanhe seu progresso e celebre suas conquistas com o MetaFlow PRO.</p>
+                <button class="btn-adicionar" onclick="irParaMetas()" style="margin:0 auto;">
+                    <i class="fas fa-plus"></i> Começar agora
+                </button>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-plus-circle"></i></div>
+                    <h3>Crie metas</h3>
+                    <p>Adicione metas com categorias e prioridades</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Acompanhe progresso</h3>
+                    <p>Visualize estatísticas e barra de progresso em tempo real</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                    <h3>Celebre conquistas</h3>
+                    <p>Receba reconhecimento ao completar todas as metas</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-cloud"></i></div>
+                    <h3>Dados salvos</h3>
+                    <p>Seus dados ficam salvos no navegador (localStorage)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             PÁGINA 2: METAS
+             ========================================================== -->
+        <section id="pagina-metas" class="pagina">
+
+            <!-- ÁREA PARA ADICIONAR -->
+            <div class="adicionar-card">
+                <div class="input-group">
+                    <input type="text" id="novaMetaInput" placeholder="Digite sua meta... (ex: Estudar 2 horas)">
+                    <select id="categoriaSelect">
+                        <option value="📚 Estudo">📚 Estudo</option>
+                        <option value="💪 Saúde">💪 Saúde</option>
+                        <option value="💼 Trabalho">💼 Trabalho</option>
+                        <option value="🏠 Pessoal">🏠 Pessoal</option>
+                        <option value="🎯 Outros">🎯 Outros</option>
+                    </select>
+                    <select id="prioridadeSelect">
+                        <option value="alta">🔴 Alta</option>
+                        <option value="media" selected>🟡 Média</option>
+                        <option value="baixa">🟢 Baixa</option>
+                    </select>
+                    <button class="btn-adicionar" id="btnAdicionar">
+                        <i class="fas fa-plus"></i> Adicionar
+                    </button>
+                </div>
+            </div>
+
+            <!-- LISTA DE METAS -->
+            <div class="lista-card">
+                <div id="listaMetas"></div>
+            </div>
+
+            <!-- PROGRESSO -->
+            <div class="progresso-card">
+                <div class="progresso-info">
+                    <span><i class="fas fa-chart-simple"></i> Progresso Geral</span>
+                    <span class="progresso-numero" id="contadorTexto">0%</span>
+                </div>
+                <div class="barra-wrapper">
+                    <div class="barra-progresso" id="barraProgresso"></div>
+                </div>
+            </div>
+
+            <!-- BOTÃO RESET -->
+            <button class="btn-reset" id="reset">
+                <i class="fas fa-undo-alt"></i> Resetar todas as metas
+            </button>
+        </section>
+
+        <!-- ==========================================================
+             PÁGINA 3: DASHBOARD
+             ========================================================== -->
+        <section id="pagina-dashboard" class="pagina">
+            <h2 style="margin-bottom:24px;"><i class="fas fa-chart-pie"></i> Dashboard</h2>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="numero" id="statTotal">0</div>
+                    <div class="label">📋 Total de Metas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero" id="statConcluidas">0</div>
+                    <div class="label">✅ Concluídas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero" id="statPercentual">0%</div>
+                    <div class="label">📊 Taxa de Conclusão</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero" id="statPendentes">0</div>
+                    <div class="label">⏳ Pendentes</div>
+                </div>
+            </div>
+
+            <div class="resumo-card">
+                <h3 style="margin-bottom:16px;">📈 Resumo do Progresso</h3>
+                <p style="color:var(--text-secondary);" id="resumoTexto">Nenhuma meta cadastrada ainda.</p>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             PÁGINA 4: SOBRE
+             ========================================================== -->
+        <section id="pagina-sobre" class="pagina">
+            <div class="sobre-card">
+                <h2><i class="fas fa-rocket"></i> Sobre o MetaFlow PRO</h2>
+                <p>MetaFlow PRO é um sistema completo de gestão de metas desenvolvido como projeto para a disciplina de Desenvolvimento Web. O sistema conta com autenticação de usuários, armazenamento local, analytics e design premium.</p>
+
+                <h3><i class="fas fa-crown"></i> Funcionalidades</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-user-lock"></i>
+                        <div><strong>Login/Cadastro</strong><span>Sistema de autenticação de usuários</span></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-tags"></i>
+                        <div><strong>Categorias</strong><span>Organize metas por categoria</span></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-chart-simple"></i>
+                        <div><strong>Dashboard</strong><span>Estatísticas e analytics</span></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-cloud"></i>
+                        <div><strong>localStorage</strong><span>Dados salvos no navegador</span></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-moon"></i>
+                        <div><strong>Modo Escuro/Claro</strong><span>Alternância de tema</span></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <div><strong>Responsivo</strong><span>Funciona em qualquer dispositivo</span></div>
+                    </div>
+                </div>
+
+                <h3><i class="fas fa-code"></i> Tecnologias Utilizadas</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fab fa-html5"></i>
+                        <div><strong>HTML5</strong><span>Estrutura semântica</span></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fab fa-css3-alt"></i>
+                        <div><strong>CSS3</strong><span>Design premium com variáveis e animações</span></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fab fa-js"></i>
+                        <div><strong>JavaScript</strong><span>Interatividade total e localStorage</span></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-font"></i>
+                        <div><strong>Google Fonts</strong><span>Fonte Inter para melhor legibilidade</span></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-icons"></i>
+                        <div><strong>Font Awesome</strong><span>Ícones profissionais</span></div>
+                    </div>
+                </div>
+
+                <h3><i class="fas fa-graduation-cap"></i> Como Usar</h3>
+                <p>
+                    1. Faça login com usuário <strong>admin</strong> e senha <strong>123456</strong> ou cadastre-se<br>
+                    2. Na página "Metas", adicione suas metas com categoria e prioridade<br>
+                    3. Marque o checkbox para concluir uma meta<br>
+                    4. Acompanhe seu progresso na barra e no Dashboard<br>
+                    5. Complete todas as metas e receba um parabéns! 🎉
+                </p>
+
+                <p style="margin-top:32px;text-align:center;font-style:italic;font-size:18px;">
+                    <i class="fas fa-quote-left"></i> Pequenas ações diárias geram grandes resultados.
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== RODAPÉ ===== -->
+        <footer class="footer">
+            <p><i class="far fa-copyright"></i> 2026 MetaFlow PRO | Sistema de Metas Profissional v4.0</p>
+            <p style="margin-top:4px;font-size:12px;">Desenvolvido para a disciplina de Desenvolvimento Web</p>
+        </footer>
+    </div>
+
+    <!-- ============================================================
+         JAVASCRIPT
+         ============================================================ -->
+    <script src="js/script.js"></script>
+
+</body>
+</html>
